@@ -1,0 +1,113 @@
+<view class="container">
+<van-cell-group title="年龄区间">
+	<van-field
+		 value="{{ minAge }}"
+		 label="从"
+		 type="number"
+     maxlength="{{2}}"
+		 bind:input="inputMinAge"
+		 placeholder="请输入范围最小年龄"
+		 required
+		>
+		</van-field>
+    	<van-field
+		 value="{{ maxAge }}"
+		 label="至"
+		 type="number"
+     maxlength="{{2}}"
+		 bind:input="inputMaxAge"
+		 placeholder="请输入范围最大年龄"
+		 required
+		>
+		</van-field>
+</van-cell-group>
+<van-cell-group title="身高区间">
+	<van-field
+		 value="{{ minHeight }}"
+		 label="从"
+		 type="number"
+      maxlength="{{3}}"
+		 bind:input="inputMinHeight"
+		 placeholder="请输入范围最小身高"
+		 required
+		>
+    	<text slot="right-icon">cm</text>
+		</van-field>
+    	<van-field
+		 value="{{ maxHeight }}"
+		 label="至"
+		 type="number"
+      maxlength="{{3}}"
+		 bind:input="inputMaxHeight"
+		 placeholder="请输入范围最大身高"
+		 required
+		>
+    	<text slot="right-icon">cm</text>
+		</van-field>
+</van-cell-group>
+<van-cell-group title="期望对方">
+  <van-field
+		 value="{{ education }}"
+		 required
+		 label="学历"
+		 readonly
+		 bindtap="selectEducation"
+		 placeholder="请选择期望对方学历"
+		/>
+		<van-popup show="{{ eduShow }}" position="bottom">
+			<van-picker
+			 show-toolbar
+			 bind:cancel="cancelEdu"
+			 bind:confirm="confirmEdu"
+			 columns="{{ eduColumns }}"
+			/>
+		</van-popup>
+  		<van-field
+		 value="{{ area }}"
+		 label="地区"
+		 readonly
+		 bindtap="selectArea"
+		 placeholder="请选择期望对方地区"
+		 required
+		/>
+		<van-popup show="{{ areaShow }}" position="bottom">
+			<van-area
+			 area-list="{{ areaList }}"
+			 columns-num="{{ 2 }}"
+			 bind:confirm="checkArea"
+			 bind:cancel="closeArea"
+			/>
+    </van-popup> 
+   	<van-field
+		 value="{{ salary }}"
+		 required
+		 bindtap="selectSalary"
+		 label="月薪"
+		 readonly
+		 placeholder="请选择期望对方月薪"
+		/>
+		<van-popup show="{{ salaryShow }}" position="bottom">
+			<van-picker
+			 show-toolbar
+			 bind:cancel="cancelSalary"
+			 bind:confirm="confirmSalary"
+			 columns="{{ salaryColumns }}"
+			/>
+		</van-popup>
+  	<van-field
+		 value="{{describe}}"
+		 required
+      type="textarea"
+		 clearable
+      autosize
+		 label="期望自述"
+		 bind:input="inputDescribe"
+		 placeholder="请输入期望自述"
+		/>
+    
+    
+    
+</van-cell-group>
+	<button class="btn-submit" size="default" bindtap="saveHopeData">提交</button>
+ 
+</view>

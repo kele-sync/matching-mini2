@@ -1,0 +1,28 @@
+/* miniprogram/pages/myinfo/myinfo.wxss */
+
+.value-class {
+    flex: none !important;
+}
+
+.container {
+    padding: 0 5px
+}
+
+.btn-submit {
+    background: #1296db;
+    margin: 20px 10px;
+    color: white
+}
+
+.close {
+    position: absolute;
+    font-size: 20px;
+    right: 0;
+    top: 0;
+    height: 20px;
+    line-height: 20px;
+}
+
+.img-layout {
+    position: relative;
+}

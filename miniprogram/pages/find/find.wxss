@@ -1,0 +1,12 @@
+/* miniprogram/pages/find/find.wxss */
+.container{
+  background: lightyellow;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+ align-items: center;
+ justify-content: space-between
+}
+page{
+  height: 100%
+}

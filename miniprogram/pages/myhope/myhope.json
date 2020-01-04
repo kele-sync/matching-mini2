@@ -1,0 +1,15 @@
+{
+  "usingComponents": {
+    "van-field": "/dist/field/index",
+    "van-radio": "/dist/radio/index",
+    "van-cell": "/dist/cell/index",
+    "van-cell-group": "/dist/cell-group/index",
+    "van-radio-group": "/dist/radio-group/index",
+    "van-area": "/dist/area/index",
+    "van-popup": "/dist/popup/index",
+    "van-datetime-picker": "/dist/datetime-picker/index",
+    "van-picker": "/dist/picker/index",
+    "van-icon": "/dist/icon/index"
+  },
+  "navigationBarTitleText": "我的期望"
+}

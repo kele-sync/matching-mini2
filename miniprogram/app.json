@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "pages/find/find",
+    "pages/user/user",
+    "pages/myhope/myhope",
+    "pages/myinfo/myinfo",
+    "pages/index/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "selectedColor": "#1296db",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/center-o.png",
+        "selectedIconPath": "images/center.png",
+        "text": "CP大厅"
+      },
+      {
+        "pagePath": "pages/find/find",
+        "iconPath": "images/find-o.png",
+        "selectedIconPath": "images/find.png",
+        "text": "发现有趣"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "images/user-o.png",
+        "selectedIconPath": "images/user.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

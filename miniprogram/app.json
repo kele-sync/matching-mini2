@@ -1,10 +1,10 @@
 {
   "pages": [
-    "pages/find/find",
-    "pages/user/user",
-    "pages/myhope/myhope",
-    "pages/myinfo/myinfo",
-    "pages/index/index"
+    "pages/playground/playground",
+    "pages/userCenter/userCenter",
+    "pages/editMyExpect/editMyExpect",
+    "pages/editMyInfo/editMyInfo",
+    "pages/home/home"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -16,19 +16,19 @@
     "selectedColor": "#1296db",
     "list": [
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/home/home",
         "iconPath": "images/center-o.png",
         "selectedIconPath": "images/center.png",
-        "text": "CP大厅"
+        "text": "cp大厅"
       },
       {
-        "pagePath": "pages/find/find",
+        "pagePath": "pages/playground/playground",
         "iconPath": "images/find-o.png",
         "selectedIconPath": "images/find.png",
         "text": "发现有趣"
       },
       {
-        "pagePath": "pages/user/user",
+        "pagePath": "pages/userCenter/userCenter",
         "iconPath": "images/user-o.png",
         "selectedIconPath": "images/user.png",
         "text": "个人中心"

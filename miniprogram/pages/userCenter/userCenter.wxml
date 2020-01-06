@@ -8,7 +8,9 @@
 						<image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover" />
 						<text class="userinfo-nickname">{{userInfo.nickName}}</text>
 				</view>
-				<van-icon name="setting-o" class="set-icon" />
+				<navigator url="/pages/userBaseInfo/userBaseInfo">
+						<van-icon name="setting-o" class="set-icon" />
+				</navigator>
 		</view>
 		<view class="user-form">
 				<navigator class="form-item" url="/pages/editMyInfo/editMyInfo" hover-class="navigator-hover" open-type="navigate">

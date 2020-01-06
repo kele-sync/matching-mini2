@@ -1,10 +1,11 @@
 {
   "pages": [
-    "pages/playground/playground",
+    "pages/userBaseInfo/userBaseInfo",
     "pages/userCenter/userCenter",
     "pages/editMyExpect/editMyExpect",
-    "pages/editMyInfo/editMyInfo",
-    "pages/home/home"
+    "pages/home/home",
+    "pages/playground/playground",
+    "pages/editMyInfo/editMyInfo"
   ],
   "window": {
     "backgroundTextStyle": "light",

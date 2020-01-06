@@ -19,6 +19,7 @@ Page({
     salaryShow: false,
     salary: '',
     area:'',
+    job:'',
     salaryColumns: [ "2000以上", "5000以上", "10000以上", "20000以上", "50000元以上", "无要求"],
     eduColumns: ["高中以上", '专科以上', "本科以上", "研究生以上", "博士以上",'无要求'],
     describe:''
@@ -39,6 +40,7 @@ Page({
             maxHeight: info.maxHeight,
             education: info.education,
             area: info.area,
+            job:info.job,
             salary: info.salary,
             describe: info.describe 
           })
@@ -62,6 +64,7 @@ Page({
       minHeight:info.minHeight,
       maxHeight:info.maxHeight,
       education:info.education,
+      job:info.job,
       area:info.area,
       salary:info.salary,
       describe:info.describe 
@@ -186,6 +189,12 @@ Page({
       minAge: e.detail
     })
   },
+  inputJob(e) {
+    this.setData({
+      job: e.detail
+    })
+  },
+
   inputMaxAge(e) {
     this.setData({
       maxAge: e.detail

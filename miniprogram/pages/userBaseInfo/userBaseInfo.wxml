@@ -1,0 +1,45 @@
+<!-- miniprogram/pages/userBaseInfo/userBaseInfo.wxml -->
+<view class="container">
+  <van-cell-group title="基本信息">
+    <van-cell title="头像" isLink center="{{true}}">
+      <van-image fit="cover" round width="30" height="30" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+    </van-cell>
+    <van-field value="{{ username }}" required clearable label="昵称" bind:input="inputName" placeholder="请输入昵称" />
+    <van-field value="{{ education }}" required label="性别" readonly bindtap="selectEducation" placeholder="请选择学历" />
+    <van-popup show="{{ eduShow }}" position="bottom">
+      <van-picker show-toolbar bind:cancel="cancelEdu" bind:confirm="confirmEdu" columns="{{ eduColumns }}" />
+    </van-popup>
+    <van-field value="{{birthDay}}" label="出生年月" readonly bindtap="selectTime" placeholder="请选择出生年月" required />
+    <van-popup show="{{ timeShow }}" position="bottom">
+      <van-datetime-picker type="date" bind:confirm="confirmDate" bind:cancel="closeDate" value="{{currentDate }}" min-date="{{ minDate }}" formatter="{{ formatter }}" />
+    </van-popup>
+    <van-field value="{{ area }}" label="家乡" readonly bindtap="selectArea" placeholder="请选择籍贯" required />
+    <van-popup show="{{ areaShow }}" position="bottom">
+      <van-area area-list="{{ areaList }}" columns-num="{{ 2 }}" bind:confirm="checkArea" bind:cancel="closeArea" />
+    </van-popup>
+    <van-field value="{{ localArea }}" label="所在地区" readonly bindtap="selectLocalArea" placeholder="请选择当前所在地区" required />
+    <van-popup show="{{ localAreaShow }}" position="bottom">
+      <van-area area-list="{{ areaList }}" columns-num="{{ 3 }}" bind:confirm="checkLocalArea" bind:cancel="closeLocalArea" />
+    </van-popup>
+    <van-field value="{{ profession }}" label="身高" placeholder="请输入职业" bind:input="inputProfession" required />
+    <van-field value="{{ profession }}" label="体重" placeholder="请输入职业" bind:input="inputProfession" required />
+  </van-cell-group>
+
+  <van-cell-group title="个人照片">
+    <view class="weui-uploader">
+      <view class="weui-uploader__bd">
+        <view class="weui-uploader__files" id="uploaderFiles">
+          <block wx:for="{{imageList}}" wx:key="*this">
+            <view class="weui-uploader__file img-layout" id="{{item}}">
+              <van-icon name="close" class="close" data-index="{{index}}" bindtap="deleteImg" />
+              <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+            </view>
+          </block>
+        </view>
+        <view class="weui-uploader__input-box" wx:if="{{imageList.length<10}}">
+          <view class="weui-uploader__input" bindtap="chooseImage" />
+        </view>
+      </view>
+    </view>
+  </van-cell-group>
+</view>

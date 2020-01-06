@@ -1,216 +1,75 @@
-<view class="container" >
-	<van-cell-group title="基本资料">
-		<van-field
-		 value="{{ username }}"
-		 required
-		 clearable
-		 label="姓名或昵称"
-		 bind:input="inputName"
-		 placeholder="请输入姓名或昵称"
-		/>
-
-		<van-field
-		 value="{{ profession }}"
-		 label="职业"
-		 placeholder="请输入职业"
-		 bind:input="inputProfession"
-		 required
-		/>
-		<van-field
-		 value="{{birthDay}}"
-		 label="出生年月"
-		 readonly
-		 bindtap="selectTime"
-		 placeholder="请选择出生年月"
-		 required
-		/>
-		<van-popup show="{{ timeShow }}" position="bottom">
-			<van-datetime-picker
-			 type="date"
-			 bind:confirm="confirmDate"
-			 bind:cancel="closeDate"
-			 value="{{currentDate }}"
-			 min-date="{{ minDate }}"
-			 formatter="{{ formatter }}"
-			/>
-		</van-popup>
-		<van-field
-		 value="{{ area }}"
-		 label="籍贯"
-		 readonly
-		 bindtap="selectArea"
-		 placeholder="请选择籍贯"
-		 required
-		/>
-		<van-popup show="{{ areaShow }}" position="bottom">
-			<van-area
-			 area-list="{{ areaList }}"
-			 columns-num="{{ 2 }}"
-			 bind:confirm="checkArea"
-			 bind:cancel="closeArea"
-			/>
-		</van-popup>
-		<van-field
-		 value="{{ localArea }}"
-		 label="所在地区"
-		 readonly
-		 bindtap="selectLocalArea"
-		 placeholder="请选择当前所在地区"
-		 required
-		/>
-
-		<van-popup show="{{ localAreaShow }}" position="bottom">
-			<van-area
-			 area-list="{{ areaList }}"
-			 columns-num="{{ 3 }}"
-			 bind:confirm="checkLocalArea"
-			 bind:cancel="closeLocalArea"
-			/>
-		</van-popup>
-	</van-cell-group>
-	<van-radio-group value="{{ gender }}">
-		<van-cell-group title="性别">
-			<van-cell
-			 title="男"
-			 value-class="value-class"
-			 clickable
-			 data-name="1"
-			 bind:click="checkGender"
-			>
-				<van-radio name="1" />
-			</van-cell>
-			<van-cell
-			 title="女"
-			 value-class="value-class"
-			 clickable
-			 data-name="2"
-			 bind:click="checkGender"
-			>
-				<van-radio name="2" />
-			</van-cell>
+<view class="container">
+		<van-cell-group title="基本资料">
+				<van-field value="{{ username }}" required clearable label="昵称" bind:input="inputName" placeholder="请输入姓名或昵称" />
+				<van-field value="{{ profession }}" label="职业" placeholder="请输入职业" bind:input="inputProfession" required />
+				<van-field value="{{birthDay}}" label="出生年月" readonly bindtap="selectTime" placeholder="请选择出生年月" required />
+				<van-popup show="{{ timeShow }}" position="bottom">
+						<van-datetime-picker type="date" bind:confirm="confirmDate" bind:cancel="closeDate" value="{{currentDate }}" min-date="{{ minDate }}" formatter="{{ formatter }}" />
+				</van-popup>
+				<van-field value="{{ area }}" label="籍贯" readonly bindtap="selectArea" placeholder="请选择籍贯" required />
+				<van-popup show="{{ areaShow }}" position="bottom">
+						<van-area area-list="{{ areaList }}" columns-num="{{ 2 }}" bind:confirm="checkArea" bind:cancel="closeArea" />
+				</van-popup>
+				<van-field value="{{ localArea }}" label="所在地区" readonly bindtap="selectLocalArea" placeholder="请选择当前所在地区" required />
+				<van-popup show="{{ localAreaShow }}" position="bottom">
+						<van-area area-list="{{ areaList }}" columns-num="{{ 3 }}" bind:confirm="checkLocalArea" bind:cancel="closeLocalArea" />
+				</van-popup>
 		</van-cell-group>
-	</van-radio-group>
-	<van-cell-group title="一些经历">
-		<van-field
-		 value="{{ education }}"
-		 required
-		 label="学历"
-		 readonly
-		 bindtap="selectEducation"
-		 placeholder="请选择学历"
-		/>
-		<van-popup show="{{ eduShow }}" position="bottom">
-			<van-picker
-			 show-toolbar
-			 bind:cancel="cancelEdu"
-			 bind:confirm="confirmEdu"
-			 columns="{{ eduColumns }}"
-			/>
-		</van-popup>
-		<van-field
-		 value="{{ school }}"
-		 label="毕业院校"
-		 bind:input="inputSchool"
-		 placeholder="请输入毕业院校"
-		 required
-		/>
-	</van-cell-group>
-	<van-cell-group title="外在形象">
-		<van-field
-		 value="{{ height }}"
-		 required
-		 clearable
-		 label="身高"
-		 type="number"
-		 bind:input="inputHeight"
-		 placeholder="请输入身高"
-		>
-			<text slot="right-icon">cm</text>
-		</van-field>
-		<van-field
-		 value="{{ weight }}"
-		 label="体重"
-		 type="number"
-		 bind:input="inputWeight"
-		 placeholder="请输入体重"
-		 required
-		>
-			<text slot="right-icon">kg</text>
-		</van-field>
-	</van-cell-group>
-	<van-cell-group title="生活照片">
-		<view class="weui-uploader">
-			<view class="weui-uploader__bd">
-				<view class="weui-uploader__files" id="uploaderFiles">
-					<block wx:for="{{imageList}}" wx:key="*this">
-						<view class="weui-uploader__file img-layout" id="{{item}}">
-							<van-icon
-							 name="close"
-							 class="close"
-							 data-index="{{index}}"
-							 bindtap="deleteImg"
-							/>
-							<image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+		<van-radio-group value="{{ gender }}">
+				<van-cell-group title="性别">
+						<van-cell title="男" value-class="value-class" clickable data-name="1" bind:click="checkGender">
+								<van-radio name="1" />
+						</van-cell>
+						<van-cell title="女" value-class="value-class" clickable data-name="2" bind:click="checkGender">
+								<van-radio name="2" />
+						</van-cell>
+				</van-cell-group>
+		</van-radio-group>
+		<van-cell-group title="一些经历">
+				<van-field value="{{ education }}" required label="学历" readonly bindtap="selectEducation" placeholder="请选择学历" />
+				<van-popup show="{{ eduShow }}" position="bottom">
+						<van-picker show-toolbar bind:cancel="cancelEdu" bind:confirm="confirmEdu" columns="{{ eduColumns }}" />
+				</van-popup>
+				<van-field value="{{ school }}" label="毕业院校" bind:input="inputSchool" placeholder="请输入毕业院校" required />
+		</van-cell-group>
+		<van-cell-group title="外在形象">
+				<van-field value="{{ height }}" required clearable label="身高" type="number" bind:input="inputHeight" placeholder="请输入身高">
+						<text slot="right-icon">cm</text>
+				</van-field>
+				<van-field value="{{ weight }}" label="体重" type="number" bind:input="inputWeight" placeholder="请输入体重" required>
+						<text slot="right-icon">kg</text>
+				</van-field>
+		</van-cell-group>
+		<van-cell-group title="生活照片">
+				<view class="weui-uploader">
+						<view class="weui-uploader__bd">
+								<view class="weui-uploader__files" id="uploaderFiles">
+										<block wx:for="{{imageList}}" wx:key="*this">
+												<view class="weui-uploader__file img-layout" id="{{item}}">
+														<van-icon name="close" class="close" data-index="{{index}}" bindtap="deleteImg" />
+														<image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
+												</view>
+										</block>
+								</view>
+								<view class="weui-uploader__input-box" wx:if="{{imageList.length<10}}">
+										<view class="weui-uploader__input" bindtap="chooseImage" />
+								</view>
 						</view>
-					</block>
 				</view>
-				<view class="weui-uploader__input-box" wx:if="{{imageList.length<10}}">
-					<view class="weui-uploader__input" bindtap="chooseImage" />
-				</view>
-			</view>
-		</view>
-	</van-cell-group>
-	<van-cell-group title="当前情况">
-		<van-field
-		 value="{{ salary }}"
-		 required
-		 bindtap="selectSalary"
-		 label="月薪"
-		 readonly
-		 placeholder="请选择当前月薪范围"
-		/>
-		<van-popup show="{{ salaryShow }}" position="bottom">
-			<van-picker
-			 show-toolbar
-			 bind:cancel="cancelSalary"
-			 bind:confirm="confirmSalary"
-			 columns="{{ salaryColumns }}"
-			/>
-		</van-popup>
-		<van-field
-		 value="{{ room }}"
-		 label="住房情况"
-		 readonly
-		 bindtap="selectRoom"
-		 placeholder="请选择住房情况"
-		 required
-		/>
-		<van-popup show="{{ roomShow }}" position="bottom">
-			<van-picker
-			 show-toolbar
-			 bind:cancel="cancelRoom"
-			 bind:confirm="confirmRoom"
-			 columns="{{ roomColumns }}"
-			/>
-		</van-popup>
-		<van-field
-		 value="{{ car }}"
-		 label="购车情况"
-		 readonly
-		 bindtap="selectCar"
-		 placeholder="请选择购车情况"
-		 required
-		/>
-		<van-popup show="{{ carShow }}" position="bottom">
-			<van-picker
-			 show-toolbar
-			 bind:cancel="cancelCar"
-			 bind:confirm="confirmCar"
-			 columns="{{ carColumns }}"
-			/>
-		</van-popup>
-	</van-cell-group>
-	<button class="btn-submit" size="default" bindtap="saveUserData">保存</button>
-
+		</van-cell-group>
+		<van-cell-group title="当前情况">
+				<van-field value="{{ salary }}" required bindtap="selectSalary" label="月薪" readonly placeholder="请选择当前月薪范围" />
+				<van-popup show="{{ salaryShow }}" position="bottom">
+						<van-picker show-toolbar bind:cancel="cancelSalary" bind:confirm="confirmSalary" columns="{{ salaryColumns }}" />
+				</van-popup>
+				<van-field value="{{ room }}" label="住房情况" readonly bindtap="selectRoom" placeholder="请选择住房情况" required />
+				<van-popup show="{{ roomShow }}" position="bottom">
+						<van-picker show-toolbar bind:cancel="cancelRoom" bind:confirm="confirmRoom" columns="{{ roomColumns }}" />
+				</van-popup>
+				<van-field value="{{ car }}" label="购车情况" readonly bindtap="selectCar" placeholder="请选择购车情况" required />
+				<van-popup show="{{ carShow }}" position="bottom">
+						<van-picker show-toolbar bind:cancel="cancelCar" bind:confirm="confirmCar" columns="{{ carColumns }}" />
+				</van-popup>
+		</van-cell-group>
+		<button class="btn-submit" size="default" bindtap="saveUserData">保存</button>
 </view>
-

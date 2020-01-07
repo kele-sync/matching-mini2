@@ -1,30 +1,33 @@
 <!-- miniprogram/pages/userBaseInfo/userBaseInfo.wxml -->
 <view class="container">
   <van-cell-group title="基本信息">
-    <van-cell title="头像" isLink center="{{true}}">
-      <van-image fit="cover" round width="30" height="30" src="https://img.yzcdn.cn/vant/cat.jpeg" />
+    <van-cell title="头像" isLink center="{{true}}" bindtap="updateIcon">
+      <cover-image class="iconLink"  src="{{iconLink}}" />
     </van-cell>
-    <van-field value="{{ username }}" required clearable label="昵称" bind:input="inputName" placeholder="请输入昵称" />
-    <van-field value="{{ education }}" required label="性别" readonly bindtap="selectEducation" placeholder="请选择学历" />
-    <van-popup show="{{ eduShow }}" position="bottom">
-      <van-picker show-toolbar bind:cancel="cancelEdu" bind:confirm="confirmEdu" columns="{{ eduColumns }}" />
+    <van-field value="{{ username }}" required clearable label="昵称" maxlength="{{8}}" data-id="username" bind:blur="commonInput" placeholder="请输入昵称" />
+    <van-field value="{{ gender }}" required label="性别" readonly data-id="genderPanel" data-value="{{true}}" bindtap="callPanel" placeholder="请选择性别" />
+    <van-popup show="{{ genderPanel.show }}" position="bottom">
+      <van-picker show-toolbar bind:cancel="callPanel" data-value="{{false}}" data-id="genderPanel" bind:confirm="panelConfirm" columns="{{ genderPanel.items }}" />
     </van-popup>
-    <van-field value="{{birthDay}}" label="出生年月" readonly bindtap="selectTime" placeholder="请选择出生年月" required />
-    <van-popup show="{{ timeShow }}" position="bottom">
-      <van-datetime-picker type="date" bind:confirm="confirmDate" bind:cancel="closeDate" value="{{currentDate }}" min-date="{{ minDate }}" formatter="{{ formatter }}" />
+    <van-field value="{{birthday}}" label="出生年月" readonly bindtap="callPanel" data-id="birthdayPanel" data-value="{{true}}" placeholder="请选择出生年月" required />
+    <van-popup show="{{ birthdayPanel.show }}" position="bottom">
+      <van-datetime-picker type="date" bind:confirm="birthdayConfirm" data-id="birthdayPanel" value="{{ birthdayPanel.defaultTime }}" bind:cancel="callPanel" data-value="{{false}}" max-date="{{ birthdayPanel.maxDate }}" formatter="{{ formatter }}" />
     </van-popup>
-    <van-field value="{{ area }}" label="家乡" readonly bindtap="selectArea" placeholder="请选择籍贯" required />
-    <van-popup show="{{ areaShow }}" position="bottom">
-      <van-area area-list="{{ areaList }}" columns-num="{{ 2 }}" bind:confirm="checkArea" bind:cancel="closeArea" />
+    <van-field value="{{ homeland }}" label="家乡" readonly bindtap="callPanel" data-id="homelandPanel" data-value="{{true}}"  placeholder="请选择籍贯" required />
+    <van-popup show="{{ homelandPanel.show }}" position="bottom">
+      <van-area area-list="{{areaList}}" columns-num="{{ 2 }}" bind:confirm="handleAreaConfirm" bind:cancel="callPanel" data-value="{{false}}" data-id="homelandPanel" />
     </van-popup>
-    <van-field value="{{ localArea }}" label="所在地区" readonly bindtap="selectLocalArea" placeholder="请选择当前所在地区" required />
-    <van-popup show="{{ localAreaShow }}" position="bottom">
-      <van-area area-list="{{ areaList }}" columns-num="{{ 3 }}" bind:confirm="checkLocalArea" bind:cancel="closeLocalArea" />
+    <van-field value="{{ apartment }}" label="所在地区" readonly  bindtap="callPanel" data-id="apartmentPanel" data-value="{{true}}" placeholder="请选择当前所在地区" required />
+    <van-popup show="{{ apartmentPanel.show }}" position="bottom">
+      <van-area area-list="{{ areaList }}" columns-num="{{ 3 }}" bind:confirm="handleAreaConfirm" bind:cancel="callPanel" data-value="{{false}}" data-id="apartmentPanel"/>
     </van-popup>
-    <van-field value="{{ profession }}" label="身高" placeholder="请输入职业" bind:input="inputProfession" required />
-    <van-field value="{{ profession }}" label="体重" placeholder="请输入职业" bind:input="inputProfession" required />
+    <van-field value="{{ height }}" type="number" maxlength="{{3}}"  label="身高" placeholder="请输入身高" bind:input="commonInput" data-id="height"  required >
+      	<text slot="right-icon">cm</text>
+    </van-field>
+    <van-field value="{{ weight }}" type="number" maxlength="{{3}}" label="体重" placeholder="请输入体重" bind:input="commonInput" data-id="weight"  required >
+      	<text slot="right-icon">kg</text>
+    </van-field>
   </van-cell-group>
-
   <van-cell-group title="个人照片">
     <view class="weui-uploader">
       <view class="weui-uploader__bd">
@@ -42,4 +45,6 @@
       </view>
     </view>
   </van-cell-group>
+	<button class="btn-submit" size="default" type="primary" bindtap="saveUserData">保存</button>
+
 </view>

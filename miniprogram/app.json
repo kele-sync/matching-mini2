@@ -1,7 +1,7 @@
 {
   "pages": [
-    "pages/userBaseInfo/userBaseInfo",
     "pages/userCenter/userCenter",
+    "pages/userBaseInfo/userBaseInfo",
     "pages/editMyExpect/editMyExpect",
     "pages/home/home",
     "pages/playground/playground",

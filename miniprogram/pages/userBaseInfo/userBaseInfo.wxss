@@ -1,1 +1,31 @@
-/* miniprogram/pages/userBaseInfo/userBaseInfo.wxss */
+
+.value-class {
+    flex: none !important;
+}
+
+.container {
+    padding: 0 5px
+}
+
+.btn-submit { 
+    margin: 20px 10px; 
+}
+
+.close {
+    position: absolute;
+    font-size: 20px;
+    right: 0;
+    top: 0;
+    height: 20px;
+    line-height: 20px;
+}
+
+.img-layout {
+    position: relative;
+}
+.iconLink{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  float:right
+}

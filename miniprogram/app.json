@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/editMyInfo/editMyInfo",
     "pages/userCenter/userCenter",
     "pages/userBaseInfo/userBaseInfo",
-    "pages/editMyInfo/editMyInfo",
     "pages/editMyExpect/editMyExpect",
     "pages/home/home",
     "pages/playground/playground"

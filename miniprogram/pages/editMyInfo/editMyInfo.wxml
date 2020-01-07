@@ -1,30 +1,16 @@
 <view class="container">
-		<van-cell-group title="基本资料">
-				<van-field value="{{ username }}" required clearable label="昵称" bind:input="inputName" placeholder="请输入姓名或昵称" />
-				<van-field value="{{ profession }}" label="职业" placeholder="请输入职业" bind:input="inputProfession" required />
-				<van-field value="{{birthDay}}" label="出生年月" readonly bindtap="selectTime" placeholder="请选择出生年月" required />
-				<van-popup show="{{ timeShow }}" position="bottom">
-						<van-datetime-picker type="date" bind:confirm="confirmDate" bind:cancel="closeDate" value="{{currentDate }}" min-date="{{ minDate }}" formatter="{{ formatter }}" />
-				</van-popup>
-				<van-field value="{{ area }}" label="籍贯" readonly bindtap="selectArea" placeholder="请选择籍贯" required />
-				<van-popup show="{{ areaShow }}" position="bottom">
-						<van-area area-list="{{ areaList }}" columns-num="{{ 2 }}" bind:confirm="checkArea" bind:cancel="closeArea" />
-				</van-popup>
+		<van-cell-group title="基本信息">
+				<van-field value="{{ phone }}" label="手机号码" type="phone" placeholder="请输入手机号码" bind:input="commonInput" data-id="phone" required />
+				<van-field value="{{ job }}" label="职业" placeholder="请输入职业" bind:input="commonInput"  data-id="job"  required />
+    <van-field value="{{birthday}}" label="出生年月" readonly bindtap="callPanel" data-id="birthdayPanel" data-value="{{true}}" placeholder="请选择出生年月" required />
+    <van-popup show="{{ birthdayPanel.show }}" position="bottom">
+      <van-datetime-picker type="date" bind:confirm="birthdayConfirm" data-id="birthdayPanel" value="{{ birthdayPanel.defaultTime }}" bind:cancel="callPanel" data-value="{{false}}" max-date="{{ birthdayPanel.maxDate }}" formatter="{{ formatter }}" />
+    </van-popup>
 				<van-field value="{{ localArea }}" label="所在地区" readonly bindtap="selectLocalArea" placeholder="请选择当前所在地区" required />
 				<van-popup show="{{ localAreaShow }}" position="bottom">
 						<van-area area-list="{{ areaList }}" columns-num="{{ 3 }}" bind:confirm="checkLocalArea" bind:cancel="closeLocalArea" />
 				</van-popup>
 		</van-cell-group>
-		<van-radio-group value="{{ gender }}">
-				<van-cell-group title="性别">
-						<van-cell title="男" value-class="value-class" clickable data-name="1" bind:click="checkGender">
-								<van-radio name="1" />
-						</van-cell>
-						<van-cell title="女" value-class="value-class" clickable data-name="2" bind:click="checkGender">
-								<van-radio name="2" />
-						</van-cell>
-				</van-cell-group>
-		</van-radio-group>
 		<van-cell-group title="一些经历">
 				<van-field value="{{ education }}" required label="学历" readonly bindtap="selectEducation" placeholder="请选择学历" />
 				<van-popup show="{{ eduShow }}" position="bottom">
@@ -58,7 +44,7 @@
 				</view>
 		</van-cell-group>
 		<van-cell-group title="当前情况">
-				<van-field value="{{ salary }}" required bindtap="selectSalary" label="月薪" readonly placeholder="请选择当前月薪范围" />
+				<van-field value="{{ salary }}" required bindtap="selectSalary" label="年薪" readonly placeholder="请选择当前年薪范围" />
 				<van-popup show="{{ salaryShow }}" position="bottom">
 						<van-picker show-toolbar bind:cancel="cancelSalary" bind:confirm="confirmSalary" columns="{{ salaryColumns }}" />
 				</van-popup>

@@ -43,37 +43,34 @@ Page({
       return value;
     },
   },
-  onLoad: function (options) {
+  onLoad: function () {
     this.getAreaList();
     this.initUserInfo();
   },
   initUserInfo() {
-    db.collection('userBaseInfo').where({
-      id: 132
-    }).get({
-      success: res => {
-        const user = res.data;
-        console.log(user);
-
-        if (res.data.length) {
-          const u = res.data[0];
-          this.setData({
-            iconLink: u.iconLink,
-            username: u.username,
-            gender: u.gender,
-            birthday: u.birthday,
-            homeland: u.homeland,
-            apartment: u.apartment,
-            height: u.height,
-            weight: u.weight,
-            imageList: u.imageList,
-          })
-        }
-      },
-      fail: res => {
-        console.log(res);
-      }
-    })
+    const userInfo = wx.getStorageSync('userBaseInfo');
+    if (userInfo) {
+      const u = JSON.parse(userInfo);
+      this.setData({
+        iconLink: u.iconLink,
+        username: u.username,
+        gender: u.gender,
+        birthday: u.birthday,
+        homeland: u.homeland,
+        apartment: u.apartment,
+        imageList: u.imageList,
+        height: u.height,
+        weight: u.weight,
+      })
+    } else {
+      const u = app.globalData.userInfo;
+      this.setData({
+        iconLink: u.avatarUrl,
+        username: u.nickName,
+        gender: u.gender ? "男" : "女",
+        apartment: u.province + '/' + u.city,
+      })
+    }
   },
   saveUserData() {
     wx.showLoading({
@@ -91,11 +88,27 @@ Page({
       weight: u.weight,
       imageList: u.imageList,
     };
+
     db.collection('userBaseInfo').doc(app.globalData.userId).set({
       data: user, success: res => {
-        console.log(res);
-        wx.hideLoading()
-      }
+        //保存成功就tmd刷新缓存中的userInfo
+        wx.setStorageSync('userBaseInfo', JSON.stringify(user));
+        wx.showToast({
+          title: '保存成功',
+          icon: 'success',
+          duration: 2000,
+          success: () => {
+            wx.navigateBack()
+          }
+        });
+      },
+      fail: err => {
+        wx.showToast({
+          title: '保存失败',
+          icon: 'fail',
+          duration: 2000
+        })
+      },
     })
   },
   updateIcon() {
@@ -103,19 +116,19 @@ Page({
     wx.chooseImage({
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'],
-      count: 1, // 可以指定来源是相册还是相机，默认二者都有
+      count: 9, // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         wx.showLoading({
           title: '上传中',
         })
         const filePath = res.tempFilePaths[0]
+
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         const cloudPath = 'userImg/' + app.globalData.userInfo.nickName + '/' + filePath.match(/\w+\.[^.]+?$/)[0]
         wx.cloud.uploadFile({
           cloudPath,
           filePath,
           success: res => {
-            console.log(res.fileID)
             that.setData({
               iconLink: res.fileID
             });
@@ -124,6 +137,7 @@ Page({
             wx.showToast({
               icon: 'none',
               title: '上传失败',
+              duration: 2000
             })
           },
           complete: () => {
@@ -134,36 +148,49 @@ Page({
     });
   },
   chooseImage: function (e) {
-    var that = this;
     wx.chooseImage({
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'],
-      count: 1, // 可以指定来源是相册还是相机，默认二者都有
-      success: function (res) {
+      count: 9, // 可以指定来源是相册还是相机，默认二者都有
+      success: (res) => {
         wx.showLoading({
           title: '上传中',
         })
-        const filePath = res.tempFilePaths[0]
+        const imagePaths = res.tempFilePaths;
+        let uploads = [];
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        const cloudPath = 'userImg/' + app.globalData.userInfo.nickName + '/' + filePath.match(/\w+\.[^.]+?$/)[0]
-        wx.cloud.uploadFile({
-          cloudPath,
-          filePath,
-          success: res => {
-            that.setData({
-              imageList: that.data.imageList.concat(res.fileID)
-            });
-          },
-          fail: e => {
-            wx.showToast({
-              icon: 'none',
-              title: '上传失败',
+        for (let index = 0; index < imagePaths.length; index++) {
+          const filePath = imagePaths[index];
+          const cloudPath = 'userImg/' + app.globalData.userInfo.nickName + '/' + filePath.match(/\w+\.[^.]+?$/)[0]
+          uploads[index] = new Promise((resolve, reject) => {
+            wx.cloud.uploadFile({
+              cloudPath,
+              filePath,
+              success: res => {
+                resolve(res.fileID)
+              },
+              fail: e => {
+                reject(e)
+              },
+              complete: () => {
+                wx.hideLoading()
+              }
             })
-          },
-          complete: () => {
-            wx.hideLoading()
-          }
-        })
+          });
+        }
+        Promise.all(uploads).then((result) => {
+          this.setData({
+            imageList: [...this.data.imageList, ...result]
+          })
+
+        }).catch((err) => {
+          wx.showToast({
+            icon: 'fail',
+            title: '上传失败',
+            duration: 2000
+          })
+        });
+
       }
     });
   },
@@ -208,6 +235,11 @@ Page({
   commonInput(e) {
     this.setData({
       [e.currentTarget.dataset.id]: e.detail.value
+    });
+  },
+  commonInputVal(e) {
+    this.setData({
+      [e.currentTarget.dataset.id]: e.detail
     });
   }
 })

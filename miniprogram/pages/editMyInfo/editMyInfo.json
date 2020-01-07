@@ -11,5 +11,5 @@
     "van-picker": "/dist/picker/index",
     "van-icon": "/dist/icon/index"
   },
-  "navigationBarTitleText": "我的资料"
+  "navigationBarTitleText": "关于我"
 }

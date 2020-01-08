@@ -10,7 +10,8 @@
     "van-datetime-picker": "/dist/datetime-picker/index",
     "van-picker": "/dist/picker/index",
     "van-image": "/dist/image/index",
-    "van-icon": "/dist/icon/index"
+    "van-icon": "/dist/icon/index",
+    "van-switch": "/dist/switch/index"
   },
   "navigationBarTitleText": "基本资料"
 }

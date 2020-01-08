@@ -26,6 +26,31 @@ App({
     })
     this.getUserId()
   },
+  getUserInfo(_openid) {
+    db.collection('userBaseInfo').where({
+      _openid
+    }).get({
+      success: res => {
+        const [userInfo] = res.data;
+        if (userInfo) {
+          //如果有userInfo,就tmd保存在storage中
+          wx.setStorageSync('userBaseInfo', JSON.stringify(userInfo));
+        }
+      }
+    });
+    db.collection('userDetailInfo').where({
+      _openid
+    }).get({
+      success: res => {
+        const [detailInfo] = res.data;
+        if (detailInfo) {
+          //如果有userInfo,就tmd保存在storage中
+          wx.setStorageSync('userDetailInfo', JSON.stringify(detailInfo));
+        }
+      }
+    });
+
+  },
   getBaseInfo(_openid) {
     db.collection('userBaseInfo').where({
       _openid
@@ -45,7 +70,7 @@ App({
       name: 'login',
       success: res => {
         self.globalData.userId = res.result.openid;
-        this.getBaseInfo(res.result.openid)
+        this.getUserInfo(res.result.openid);
       },
     })
   },

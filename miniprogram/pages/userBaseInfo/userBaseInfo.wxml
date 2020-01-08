@@ -9,41 +9,6 @@
     <van-popup show="{{ genderPanel.show }}" position="bottom">
       <van-picker show-toolbar bind:cancel="callPanel" data-value="{{false}}" data-id="genderPanel" bind:confirm="panelConfirm" columns="{{ genderPanel.items }}" />
     </van-popup>
-    <van-field value="{{birthday}}" label="出生年月" readonly bindtap="callPanel" data-id="birthdayPanel" data-value="{{true}}" placeholder="请选择出生年月" required />
-    <van-popup show="{{ birthdayPanel.show }}" position="bottom">
-      <van-datetime-picker type="date" bind:confirm="birthdayConfirm" data-id="birthdayPanel" value="{{ birthdayPanel.defaultTime }}" bind:cancel="callPanel" data-value="{{false}}" max-date="{{ birthdayPanel.maxDate }}" formatter="{{ formatter }}" />
-    </van-popup>
-    <van-field value="{{ homeland }}" label="家乡" readonly bindtap="callPanel" data-id="homelandPanel" data-value="{{true}}" placeholder="请选择籍贯" required />
-    <van-popup show="{{ homelandPanel.show }}" position="bottom">
-      <van-area area-list="{{areaList}}" columns-num="{{ 2 }}" bind:confirm="handleAreaConfirm" bind:cancel="callPanel" data-value="{{false}}" data-id="homelandPanel" />
-    </van-popup>
-    <van-field value="{{ apartment }}" label="所在地区" readonly bindtap="callPanel" data-id="apartmentPanel" data-value="{{true}}" placeholder="请选择当前所在地区" required />
-    <van-popup show="{{ apartmentPanel.show }}" position="bottom">
-      <van-area area-list="{{ areaList }}" columns-num="{{ 3 }}" bind:confirm="handleAreaConfirm" bind:cancel="callPanel" data-value="{{false}}" data-id="apartmentPanel" />
-    </van-popup>
-    <van-field value="{{ height }}" type="number" maxlength="{{3}}" label="身高" placeholder="请输入身高" bind:input="commonInputVal" data-id="height" required>
-      <text slot="right-icon">cm</text>
-    </van-field>
-    <van-field value="{{ weight }}" type="number" maxlength="{{3}}" label="体重" placeholder="请输入体重" bind:input="commonInputVal" data-id="weight" required>
-      <text slot="right-icon">kg</text>
-    </van-field>
-  </van-cell-group>
-  <van-cell-group title="个人照片">
-    <view class="weui-uploader">
-      <view class="weui-uploader__bd">
-        <view class="weui-uploader__files" id="uploaderFiles">
-          <block wx:for="{{imageList}}" wx:key="*this">
-            <view class="weui-uploader__file img-layout" id="{{item}}">
-              <van-icon name="close" class="close" data-index="{{index}}" bindtap="deleteImg" />
-              <image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
-            </view>
-          </block>
-        </view>
-        <view class="weui-uploader__input-box" wx:if="{{imageList.length<10}}">
-          <view class="weui-uploader__input" bindtap="chooseImage" />
-        </view>
-      </view>
-    </view>
   </van-cell-group>
   <button class="btn-submit" size="default" type="primary" bindtap="saveUserData">保存</button>
 </view>

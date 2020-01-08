@@ -19,29 +19,15 @@
 				<van-field value="{{ school }}" label="毕业院校" bind:input="commonInput" data-id="school" placeholder="请输入毕业院校" required />
 		</van-cell-group>
 		<van-cell-group title="外在形象">
-				<van-field value="{{ height }}" required label="身高" data-id="height" maxlength="{{3}}" type="number" bind:input="commonInputVal" placeholder="请输入身高">
+				<van-field value="{{ height }}" required label="身高" data-id="height" maxlength="{{3}}" type="number" bind:input="commonInput" placeholder="请输入身高">
 						<text slot="right-icon">cm</text>
 				</van-field>
-				<van-field value="{{ weight }}" label="体重" type="number" maxlength="{{3}}" bind:input="commonInputVal" data-id="weight" placeholder="请输入体重" required>
+				<van-field value="{{ weight }}" label="体重" type="number" maxlength="{{3}}" bind:input="commonInput" data-id="weight" placeholder="请输入体重" required>
 						<text slot="right-icon">kg</text>
 				</van-field>
 		</van-cell-group>
-		<van-cell-group title="生活照片">
-				<view class="weui-uploader">
-						<view class="weui-uploader__bd">
-								<view class="weui-uploader__files" id="uploaderFiles">
-										<block wx:for="{{photos}}" wx:key="*this">
-												<view class="weui-uploader__file img-layout" id="{{item}}">
-														<van-icon name="close" class="close" data-index="{{index}}" bindtap="deleteImg" />
-														<image class="weui-uploader__img" src="{{item}}" mode="aspectFill" />
-												</view>
-										</block>
-								</view>
-								<view class="weui-uploader__input-box" wx:if="{{photos.length<10}}">
-										<view class="weui-uploader__input" bindtap="chooseImage" />
-								</view>
-						</view>
-				</view>
+		<van-cell-group title="生活照片" border="{{false}}">
+				<van-uploader file-list="{{ photos }}" bind:after-read="uploadToCloud" multiple="{{true}}" max-count="9" bind:delete="deleteImage" />
 		</van-cell-group>
 		<van-cell-group title="当前情况">
 				<van-field value="{{ yearlySalary }}" required bindtap="callPanel" data-id="yearlyPanel" data-value="{{true}}" label="年薪" readonly placeholder="请选择年薪范围" />

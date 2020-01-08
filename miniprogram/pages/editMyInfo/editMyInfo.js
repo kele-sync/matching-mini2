@@ -79,6 +79,7 @@ Page({
     db.collection('userDetailInfo').doc(app.globalData.userId).set({
       data,
       success: res => {
+        wx.setStorageSync('userDetailInfo', JSON.stringify(data));
         wx.showToast({
           title: "保存成功",
           icon: "success",
@@ -97,16 +98,49 @@ Page({
       }
     })
   },
-
-
-
-
   commonConfirm(e) {
     const panelName = e.currentTarget.dataset.id;
     this.setData({
       [this.data[panelName].target]: e.detail.value,
       [panelName + '.show']: false
     })
+  },
+  deleteImage(e) {
+    const photos = [...this.data.photos].splice(e.detail.index, 1)
+    this.setData({
+      photos
+    })
+  },
+  uploadToCloud(e) {
+    const photos = e.detail.file;
+    if (!photos.length) {
+      wx.showToast({ title: '请选择图片', icon: 'none' });
+    } else {
+      console.log(photos);
+
+      const uploadTasks = photos.map((file) => this.uploadFilePromise(file));
+      Promise.all(uploadTasks)
+        .then(data => {
+          wx.showToast({ title: '上传成功', icon: 'none' });
+          const newPhotos = data.map(item => {
+            return {
+              url: item.fileID, isImage: true
+            }
+          });
+          this.setData({ photos: newPhotos });
+        })
+        .catch(e => {
+          wx.showToast({ title: '上传失败', icon: 'none' });
+          console.log(e);
+        });
+    }
+  },
+
+  uploadFilePromise(chooseResult) {
+    return wx.cloud.uploadFile({
+      cloudPath: 'userImg/' + app.globalData.userInfo.nickName + '/' + chooseResult.path.match(/\w+\.[^.]+?$/)[0],
+      filePath: chooseResult.path
+    });
   },
   chooseImage: function (e) {
     wx.chooseImage({
@@ -155,7 +189,28 @@ Page({
     });
   },
   onLoad: function () {
+    this.userInfoInit()
     this.getAreaList();
+  },
+  userInfoInit() {
+    const detailInfo = wx.getStorageSync('userDetailInfo');
+    if (detailInfo) {
+      const u = JSON.parse(detailInfo);
+      this.setData({
+        phone: u.phone,
+        job: u.job,
+        birthday: u.birthday,
+        location: u.location,
+        education: u.education,
+        school: u.school,
+        height: u.height,
+        weight: u.weight,
+        photos: u.photos,
+        yearlySalary: u.yearlySalary,
+        houseSituation: u.houseSituation,
+        carSituation: u.carSituation
+      })
+    }
   },
   getAreaList() {
     wx.request({

@@ -4,7 +4,6 @@ const db = wx.cloud.database();
 
 Page({
   data: {
-
     phone: '',
     job: '',
     birthday: '',
@@ -20,43 +19,35 @@ Page({
     birthdayPanel: {
       show: false,
       target: "birthday",
-      defaultTime: new Date().getTime(),
+      defaultDate: new Date(1993, 0, 0).getTime(),
       maxDate: new Date().getTime(),
+      minDate: new Date(1970, 0, 0).getTime()
     },
-
-
-
-
-
-    isNewUser: true,
-    username: '',
-    profession: '',
-    timeShow: false,
-    birthDay: '',
-    currentDate: new Date(1993, 1, 20).getTime(),
-    maxDate: new Date().getTime(),
-    areaList: {},
-    area: '',
-    localArea: '',
-    areaShow: false,
-    localAreaShow: false,
-    gender: "1",
-    eduShow: false,
-    education: '',
-    eduColumns: ["高中", '专科', "本科", "研究生", "博士"],
-    school: '',
-    height: '',
-    weight: '',
-    salaryShow: false,
-    salary: '',
-    salaryColumns: ['2000元以下', "2000~5000元", "5000~10000元", "10000~20000元", "20000~50000元", "50000元以上", "暂且保密"],
-    roomShow: false,
-    room: '',
-    roomColumns: ["已购住房", "独自租房", "与人合租", "与父母同住", "需要时购置", "暂且保密"],
-    carShow: false,
-    car: '',
-    carColumns: ["暂未购车", "已经购车", "暂且保密"],
-    imageList: [],
+    locationPanel: {
+      show: false,
+      cities: [],
+      target: 'location'
+    },
+    educationPanel: {
+      show: false,
+      target: "education",
+      columns: ["高中", '专科', "本科", "研究生", "博士及以上"],
+    },
+    yearlyPanel: {
+      show: false,
+      target: 'yearlySalary',
+      columns: ['<8万', '8~15万', '15~25万', '25~50万', '50~100万', '>100万']
+    },
+    housePanel: {
+      show: false,
+      target: 'houseSituation',
+      columns: ["已购住房", "独自租房", "与人合租", "与父母同住", "需要时购置", "暂且保密"]
+    },
+    carPanel: {
+      show: false,
+      columns: ["暂未购车", "已经购车", "暂且保密"],
+      target: 'carSituation'
+    },
     formatter(type, value) {
       if (type === 'year') {
         return `${value}年`;
@@ -66,16 +57,115 @@ Page({
       return value;
     },
   },
+  saveUserData() {
+    wx.showLoading({
+      title: '资料保存中',
+    });
+    const u = this.data;
+    const data = {
+      phone: u.phone,
+      job: u.job,
+      birthday: u.birthday,
+      location: u.location,
+      education: u.education,
+      school: u.school,
+      height: u.height,
+      weight: u.weight,
+      photos: u.photos,
+      yearlySalary: u.yearlySalary,
+      houseSituation: u.houseSituation,
+      carSituation: u.carSituation
+    };
+    db.collection('userDetailInfo').doc(app.globalData.userId).set({
+      data,
+      success: res => {
+        wx.showToast({
+          title: "保存成功",
+          icon: "success",
+          duration: 2000,
+          success: () => {
+            wx.navigateBack()
+          }
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          title: "保存失败",
+          icon: "fail",
+          duration: 2000
+        })
+      }
+    })
+  },
 
-  onLoad: function (options) {
+
+
+
+  commonConfirm(e) {
+    const panelName = e.currentTarget.dataset.id;
+    this.setData({
+      [this.data[panelName].target]: e.detail.value,
+      [panelName + '.show']: false
+    })
+  },
+  chooseImage: function (e) {
+    wx.chooseImage({
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'],
+      count: 9, // 可以指定来源是相册还是相机，默认二者都有
+      success: (res) => {
+        wx.showLoading({
+          title: '上传中',
+        })
+        const imagePaths = res.tempFilePaths;
+        let uploads = [];
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        for (let index = 0; index < imagePaths.length; index++) {
+          const filePath = imagePaths[index];
+          const cloudPath = 'userImg/' + app.globalData.userInfo.nickName + '/' + filePath.match(/\w+\.[^.]+?$/)[0]
+          uploads[index] = new Promise((resolve, reject) => {
+            wx.cloud.uploadFile({
+              cloudPath,
+              filePath,
+              success: res => {
+                resolve(res.fileID)
+              },
+              fail: e => {
+                reject(e)
+              },
+              complete: () => {
+                wx.hideLoading()
+              }
+            })
+          });
+        }
+        Promise.all(uploads).then((result) => {
+          this.setData({
+            photos: [...this.data.photos, ...result]
+          })
+        }).catch((err) => {
+          wx.showToast({
+            icon: 'fail',
+            title: '上传失败',
+            duration: 2000
+          })
+        });
+
+      }
+    });
+  },
+  onLoad: function () {
     this.getAreaList();
-    if (app.globalData.userInfo) {
-      this.setData({
-        gender: app.globalData.userInfo.gender.toString()
-      })
-    }
-    this.getUserData()
-
+  },
+  getAreaList() {
+    wx.request({
+      url: 'https://616c-alice-dc9701-1258866920.tcb.qcloud.la/projectState/datacenter/areaList.json?sign=3e2892d76cc3168f7bce1690c188a374&t=1565440496',
+      success: response => {
+        this.setData({
+          'locationPanel.cities': response.data.data
+        });
+      }
+    });
   },
   commonInputVal(e) {
     console.log(e)
@@ -102,4 +192,12 @@ Page({
       ['birthdayPanel.show']: false
     })
   },
+  locationConfirm(e) {
+    const city = e.detail.values.map(i => i.name);
+    this.setData({
+      location: city.join('/'),
+      'locationPanel.show': false
+    });
+  },
+
 })

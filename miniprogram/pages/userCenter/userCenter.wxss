@@ -52,8 +52,13 @@ page {
     margin-left: 20px
 }
 
+
 .set-icon {
     font-size: 20px;
+}
+.link-icon{
+    width: 20px;
+    height: 20px;
 }
 
 .user-form {

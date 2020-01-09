@@ -1,272 +1,124 @@
 // pages/myhope/myhope.js
 const app = getApp()
 const db = wx.cloud.database();
+const cities = require('../../utils/cities');
 
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: { 
-    isNewHope:true,
-    minAge:'',
-    maxAge:'',
-    minHeight:'',
-    maxHeight:'',
-    eduShow: false,
+  data: {
+    height: '',
+    weight: '',
+    age: '',
+    job: '',
     education: '',
-    areaList:[],
-    salaryShow: false,
-    salary: '',
-    area:'',
-    job:'',
-    salaryColumns: [ "2000以上", "5000以上", "10000以上", "20000以上", "50000元以上", "无要求"],
-    eduColumns: ["高中以上", '专科以上', "本科以上", "研究生以上", "博士以上",'无要求'],
-    describe:''
+    location: '',
+    yearlySalary: '',
+    myDescribe: '',
+    educationPanel: {
+      show: false,
+      target: 'education',
+      columns: ["高中以上", "大专以上", "本科以上", "研究生以上", "博士以上", "无要求"]
+    },
+    locationPanel: {
+      show: false,
+      cities: cities
+    },
+    yearlyPanel: {
+      show: false,
+      target: 'yearlySalary',
+      columns: ['<8万', '8~15万', '15~25万', '25~50万', '50~100万', '>100万']
+    },
   },
-  getHopeData() {
-    db.collection('hopes').where({
-      _openid: app.globalData.userId
-    }).get({
-      success: res => {
-        console.log(res)
-        if (res.data.length > 0) {
-          let info=res.data[0]
-          this.setData({
-            isNewHope: false,
-            minAge: info.minAge,
-            maxAge: info.maxAge,
-            minHeight: info.minHeight,
-            maxHeight: info.maxHeight,
-            education: info.education,
-            area: info.area,
-            job:info.job,
-            salary: info.salary,
-            describe: info.describe 
-          })
-        }
-      }
-    })
-
-  },
-  onLoad: function (options) {
-    this.getAreaList();
-    this.getHopeData()
-  },
-  saveHopeData(){
-    wx.showLoading({
-      title: '资料提交中',
-    })
-    let info=this.data;
-    let sendData={
-      minAge:info.minAge,
-      maxAge:info.maxAge,
-      minHeight:info.minHeight,
-      maxHeight:info.maxHeight,
-      education:info.education,
-      job:info.job,
-      area:info.area,
-      salary:info.salary,
-      describe:info.describe 
-    }
-    if (this.data.isNewHope) {
+  pageDataInit() {
+    const userExpect = wx.getStorageSync('userExpect');
+    if (userExpect) {
+      const u = JSON.parse(userExpect);
       this.setData({
-        isNewHope: false
+        height: u.height,
+        weight: u.weight,
+        age: u.age,
+        job: u.job,
+        education: u.education,
+        location: u.location,
+        yearlySalary: u.yearlySalary,
+        myDescribe: u.myDescribe,
       })
-      db.collection('hopes').add({
-        data: sendData,
-        success: res => {
-          wx.showToast({
-            title: '保存成功',
-            icon: 'success',
-            duration: 2000
-          })
-          console.log(res)
-        },
-        fail: err => {
-          wx.showToast({
-            title: '保存失败',
-            icon: 'fail',
-            duration: 1000
-          })
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-    }else{
-      wx.cloud.callFunction({
-        name: 'updateHope',
-        data: sendData,
-        success: res => {
-          wx.showToast({
-            title: '保存成功',
-            icon: 'success',
-            duration: 2000
-          })
-          console.log(res)
-        },
-        fail: err => {
-          wx.showToast({
-            title: '保存失败',
-            icon: 'fail',
-            duration: 1000
-          })
-        },
-        complete: res => {
-          wx.hideLoading()
-        }
-      })
-
     }
   },
-  inputDescribe(e) {
-    this.setData({
-      describe: e.detail
-    })
-  },
-  confirmSalary(e) {
-
-    this.setData({
-      salaryShow: false,
-      salary: e.detail.value
-    })
-  },
-  cancelSalary() {
-    this.setData({
-      salaryShow: false
-    })
-  },
-  selectSalary() {
-    this.setData({
-      salaryShow: true
-    })
-  },
-  checkArea(e) {
-    let data = ""
-    e.detail.values.forEach(e => {
-      data += e.name + '/'
-    })
-
-    this.setData({
-      areaShow: false,
-      area: data
-    })
-  },
-  closeArea() {
-    this.setData({
-      areaShow: false
-    })
-  },
-  selectArea() {
-    this.setData({
-      areaShow: true
-    })
-  },
-  getAreaList() {
-    let self = this;
-    wx.request({
-      url: 'https://616c-alice-dc9701-1258866920.tcb.qcloud.la/projectState/datacenter/areaList.json?sign=3e2892d76cc3168f7bce1690c188a374&t=1565440496',
-      success: response => {
-        self.setData({
-          areaList: response.data.data
-        });
+  saveHopeData() {
+    wx.showLoading({
+      title: '资料保存中',
+    });
+    const u = this.data;
+    const data = {
+      height: u.height,
+      weight: u.weight,
+      age: u.age,
+      job: u.job,
+      education: u.education,
+      location: u.location,
+      yearlySalary: u.yearlySalary,
+      myDescribe: u.myDescribe,
+    };
+    db.collection('userExpect').doc(app.globalData.userId).set({
+      data,
+      success: res => {
+        wx.setStorageSync('userExpect', JSON.stringify(data));
+        wx.showToast({
+          title: "保存成功",
+          icon: "success",
+          duration: 2000,
+          success: () => {
+            wx.navigateBack()
+          }
+        })
+      },
+      fail: err => {
+        wx.showToast({
+          title: "保存失败",
+          icon: "none",
+          duration: 2000
+        })
       }
+    })
+  },
+  locationConfirm(e) {
+    const city = e.detail.values.map(i => i.name);
+    this.setData({
+      location: city.join('/'),
+      'locationPanel.show': false
     });
   },
-  inputMinHeight(e){ 
-      this.setData({
-        minHeight: e.detail
-      }) 
-  },
-  inputMaxHeight(e) {
+  commonConfirm(e) {
+    const panelName = e.currentTarget.dataset.id;
     this.setData({
-      maxHeight: e.detail
+      [this.data[panelName].target]: e.detail.value,
+      [panelName + '.show']: false
     })
   },
-  inputMinAge(e) {
+  callPanel(e) {
+    const str = e.currentTarget.dataset.id + '.show'
     this.setData({
-      minAge: e.detail
+      [str]: e.currentTarget.dataset.value
     })
   },
-  inputJob(e) {
+  commonInputVal(e) {
+    console.log(e)
     this.setData({
-      job: e.detail
-    })
+      [e.currentTarget.dataset.id]: e.detail.value
+    });
   },
-
-  inputMaxAge(e) {
+  commonInput(e) {
+    console.log(e)
     this.setData({
-      maxAge: e.detail
-    })
+      [e.currentTarget.dataset.id]: e.detail
+    });
   },
-  selectEducation() {
+  commonInputNumber(e) {
     this.setData({
-      eduShow: true
-    })
+      [e.currentTarget.dataset.id]: +e.detail
+    });
   },
-  cancelEdu() {
-    this.setData({
-      eduShow: false
-    })
-  },
-  confirmEdu(e) { 
-    this.setData({
-      eduShow: false,
-      education: e.detail.value
-    })
-  },
-  /**
-   * 生命周期函数--监听页面加载
-   */
-
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+  onLoad: function () {
+    this.pageDataInit();
   }
 })

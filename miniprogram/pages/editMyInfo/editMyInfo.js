@@ -1,6 +1,8 @@
 // miniprogram/pages/myinfo/myinfo.js
 const app = getApp()
 const db = wx.cloud.database();
+const cities = require('../../utils/cities');
+
 
 Page({
   data: {
@@ -25,7 +27,7 @@ Page({
     },
     locationPanel: {
       show: false,
-      cities: [],
+      cities: cities,
       target: 'location'
     },
     educationPanel: {
@@ -92,7 +94,7 @@ Page({
       fail: err => {
         wx.showToast({
           title: "保存失败",
-          icon: "fail",
+          icon: "none",
           duration: 2000
         })
       }
@@ -184,13 +186,11 @@ Page({
             duration: 2000
           })
         });
-
       }
     });
   },
   onLoad: function () {
     this.userInfoInit()
-    this.getAreaList();
   },
   userInfoInit() {
     const detailInfo = wx.getStorageSync('userDetailInfo');
@@ -212,16 +212,7 @@ Page({
       })
     }
   },
-  getAreaList() {
-    wx.request({
-      url: 'https://616c-alice-dc9701-1258866920.tcb.qcloud.la/projectState/datacenter/areaList.json?sign=3e2892d76cc3168f7bce1690c188a374&t=1565440496',
-      success: response => {
-        this.setData({
-          'locationPanel.cities': response.data.data
-        });
-      }
-    });
-  },
+
   commonInputVal(e) {
     console.log(e)
     this.setData({
@@ -232,6 +223,12 @@ Page({
     console.log(e)
     this.setData({
       [e.currentTarget.dataset.id]: e.detail
+    });
+  },
+  commonInputNumber(e) {
+    console.log(e)
+    this.setData({
+      [e.currentTarget.dataset.id]: +e.detail
     });
   },
   callPanel(e) {

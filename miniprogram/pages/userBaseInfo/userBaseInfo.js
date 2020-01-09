@@ -7,12 +7,14 @@ Page({
     iconLink: '',
     username: '',
     gender: '',
+    accept: false,
+    isPush: false,
     //控制显示面板
     genderPanel: {
       show: false,
       items: ['男', '女'],
       target: "gender"
-    },
+    }
   },
   onLoad: function () {
     this.initUserInfo();
@@ -24,7 +26,9 @@ Page({
       this.setData({
         iconLink: u.iconLink,
         username: u.username,
-        gender: u.gender
+        gender: u.gender,
+        accept: u.accept,
+        isPush: u.isPush
       })
     } else {
       const u = app.globalData.userInfo;
@@ -52,6 +56,8 @@ Page({
       iconLink: u.iconLink,
       username: u.username,
       gender: u.gender,
+      accept: u.accept,
+      isPush: u.isPush,
     };
     db.collection('userBaseInfo').doc(app.globalData.userId).set({
       data,
@@ -131,5 +137,9 @@ Page({
       [e.currentTarget.dataset.id]: e.detail.value
     });
   },
-
+  commonInputVal(e) {
+    this.setData({
+      [e.currentTarget.dataset.id]: e.detail
+    });
+  },
 })

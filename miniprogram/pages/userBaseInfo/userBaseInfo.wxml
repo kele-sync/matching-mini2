@@ -9,6 +9,12 @@
     <van-popup show="{{ genderPanel.show }}" position="bottom">
       <van-picker show-toolbar bind:cancel="callPanel" data-value="{{false}}" data-id="genderPanel" bind:confirm="panelConfirm" columns="{{ genderPanel.items }}" />
     </van-popup>
+    <van-cell title="是否接收合适推送" center="{{true}}">
+      <van-switch checked="{{ accept }}" size="24px" data-id="accept" bind:change="commonInputVal" />
+    </van-cell>
+    <van-cell title="是否推送合适的人" center="{{true}}">
+      <van-switch checked="{{  isPush }}" size="22px" data-id="isPush" bind:change="commonInputVal" />
+    </van-cell>
   </van-cell-group>
   <button class="btn-submit" size="default" type="primary" bindtap="saveUserData">保存</button>
 </view>

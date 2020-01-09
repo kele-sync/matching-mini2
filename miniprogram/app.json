@@ -1,11 +1,12 @@
 {
   "pages": [
     "pages/userCenter/userCenter",
-    "pages/editMyInfo/editMyInfo",
-    "pages/userBaseInfo/userBaseInfo",
     "pages/editMyExpect/editMyExpect",
+    "pages/userBaseInfo/userBaseInfo",
+    "pages/editMyInfo/editMyInfo",
     "pages/home/home",
-    "pages/playground/playground"
+    "pages/playground/playground",
+    "pages/cpQuestion/cpQuestion"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -26,7 +27,7 @@
         "pagePath": "pages/playground/playground",
         "iconPath": "images/find-o.png",
         "selectedIconPath": "images/find.png",
-        "text": "吃喝玩乐"
+        "text": "组团去玩"
       },
       {
         "pagePath": "pages/userCenter/userCenter",

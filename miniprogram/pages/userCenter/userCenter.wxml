@@ -5,10 +5,10 @@
 <view wx:else>
 		<view class="userinfo">
 				<view class="user-logo">
-						<image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover" />
+						<van-image round width="80" height="80" src="{{userInfo.avatarUrl}}" fit="cover" />
 						<text class="userinfo-nickname">{{userInfo.nickName}}</text>
 				</view>
-				<navigator url="/pages/userBaseInfo/userBaseInfo">
+				<navigator class="link-icon" url="/pages/userBaseInfo/userBaseInfo">
 						<van-icon name="setting-o" class="set-icon" />
 				</navigator>
 		</view>
@@ -21,9 +21,9 @@
 						<image class="" src="https://616c-alice-dc9701-1258866920.tcb.qcloud.la/projectState/images/user-hope.png?sign=ebc84ff0aca6e303fd7d38982c4394ca&t=1565420829" mode="cover" lazy-load="false" />
 						我期望
 				</navigator>
-				<navigator class="form-item" target="" url="" hover-class="navigator-hover" open-type="navigate">
+				<navigator class="form-item" url="/pages/cpQuestion/cpQuestion" hover-class="navigator-hover" open-type="navigate">
 						<image class="" src="https://616c-alice-dc9701-1258866920.tcb.qcloud.la/projectState/images/user-que.png?sign=4dd48a66623767d16ea8c22d8a19a7cc&t=1565420846" mode="cover" lazy-load="false" />
-						CP测试
+						CP问答
 				</navigator>
 		</view>
 		<view class="group" hover-class="none" hover-stop-propagation="false">

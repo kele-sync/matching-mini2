@@ -1,6 +1,5 @@
 //app.js
 let db;
-
 App({
   onLaunch: function () {
     // 获取用户信息
@@ -44,25 +43,12 @@ App({
       success: res => {
         const [detailInfo] = res.data;
         if (detailInfo) {
-          //如果有userInfo,就tmd保存在storage中
+          //如果有detailInfo,就tmd保存在storage中
           wx.setStorageSync('userDetailInfo', JSON.stringify(detailInfo));
         }
       }
     });
 
-  },
-  getBaseInfo(_openid) {
-    db.collection('userBaseInfo').where({
-      _openid
-    }).get({
-      success: res => {
-        const [userInfo] = res.data;
-        if (userInfo) {
-          //如果有userInfo,就tmd保存在storage中
-          wx.setStorageSync('userBaseInfo', JSON.stringify(userInfo));
-        }
-      }
-    })
   },
   getUserId() {
     let self = this;

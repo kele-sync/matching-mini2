@@ -1,1 +1,10 @@
 /* miniprogram/pages/cpQuestion/cpQuestion.wxss */
+.container {
+    padding: 0 5px
+}
+
+.btn-submit {
+    background: #1296db;
+    margin: 20px 10px;
+    color: white
+}

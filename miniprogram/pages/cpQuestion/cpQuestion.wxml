@@ -1,2 +1,19 @@
-<!--miniprogram/pages/cpQuestion/cpQuestion.wxml-->
-<text>miniprogram/pages/cpQuestion/cpQuestion.wxml</text>
+<!-- miniprogram/pages/cpQuestion/cpQuestion.wxml -->
+<view class="container">
+  <van-cell-group title="问：过往的经历，哪些令你印象深刻">
+    <van-field size="large" value="{{ experience }}" type="textarea" placeholder="答：" bind:input="commonInput" data-id="experience" autosize />
+  </van-cell-group>
+  <van-cell-group title="问：对未来有哪些规划">
+    <van-field size="large" value="{{ plan }}" type="textarea" placeholder="答：" bind:input="commonInput" data-id="plan" autosize />
+  </van-cell-group>
+  <van-cell-group title="问：谈谈业余爱好吧">
+    <van-field size="large" value="{{ hobby }}" type="textarea" placeholder="答：" bind:input="commonInput" data-id="hobby" autosize />
+  </van-cell-group>
+  <van-cell-group title="问：你对未来的对象有哪些期望">
+    <van-field size="large" value="{{ expect }}" type="textarea" placeholder="答：" bind:input="commonInput" data-id="expect" autosize />
+  </van-cell-group>
+  <van-cell-group title="问：你觉得是个什么样的人呢">
+    <van-field size="large" value="{{ whoAmI }}" type="textarea" placeholder="答：" bind:input="commonInput" data-id="whoAmI" autosize />
+  </van-cell-group>
+  <button class="btn-submit" size="default" bindtap="saveUserData">保存</button>
+</view>

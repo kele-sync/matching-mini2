@@ -1,13 +1,2 @@
-<!--miniprogram/pages/find/find.wxml-->
-<view class="container">
-  	<image
-			 bindtap="bindViewTap"
-			 class="userinfo-avatar" src="https://616c-alice-dc9701-1258866920.tcb.qcloud.la/userImg/Kele/tmp_f657cf15aecf8719d0947420541568a34b36e794dad63703.jpg?sign=0d332bc5de1a88d5f2d268c81e700973&t=1566028861"
-			 mode="cover"
-			/>
-      	<image
-			 bindtap="bindViewTap"
-			 class="userinfo-avatar" src="https://616c-alice-dc9701-1258866920.tcb.qcloud.la/userImg/Kele/tmp_f657cf15aecf8719d0947420541568a34b36e794dad63703.jpg?sign=0d332bc5de1a88d5f2d268c81e700973&t=1566028861"
-			 mode="cover"
-			/>
-</view>
+<!-- miniprogram/pages/find/find.wxml -->
+<view class="container"></view>

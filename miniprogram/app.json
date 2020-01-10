@@ -1,17 +1,17 @@
 {
   "pages": [
     "pages/userCenter/userCenter",
+    "pages/cpQuestion/cpQuestion",
     "pages/editMyExpect/editMyExpect",
     "pages/userBaseInfo/userBaseInfo",
     "pages/editMyInfo/editMyInfo",
     "pages/home/home",
-    "pages/playground/playground",
-    "pages/cpQuestion/cpQuestion"
+    "pages/playground/playground"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "Matching",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {

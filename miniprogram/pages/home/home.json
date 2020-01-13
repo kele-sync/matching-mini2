@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "van-tabbar": "/dist/tabbar/index",
-    "van-tabbar-item": "/dist/tabbar-item/index"
+    "van-count-down": "/dist/count-down/index",
+    "van-button": "/dist/button/index",
+    "van-image": "/dist/image/index"
   }
 }

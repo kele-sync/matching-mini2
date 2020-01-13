@@ -1,11 +1,11 @@
 {
   "pages": [
+    "pages/home/home",
     "pages/userCenter/userCenter",
     "pages/cpQuestion/cpQuestion",
     "pages/editMyExpect/editMyExpect",
     "pages/userBaseInfo/userBaseInfo",
     "pages/editMyInfo/editMyInfo",
-    "pages/home/home",
     "pages/playground/playground"
   ],
   "window": {

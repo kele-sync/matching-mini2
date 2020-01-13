@@ -3,7 +3,9 @@ let db;
 App({
   onLaunch: function () {
     // 获取用户信息
-    wx.cloud.init();
+    wx.cloud.init(
+    { traceUser: true,}
+    );
     db = wx.cloud.database()
     wx.getSetting({
       success: res => {
@@ -45,6 +47,17 @@ App({
         if (detailInfo) {
           //如果有detailInfo,就tmd保存在storage中
           wx.setStorageSync('userDetailInfo', JSON.stringify(detailInfo));
+        }
+      }
+    });
+    db.collection('userExpect').where({
+      _openid
+    }).get({
+      success: res => {
+        const [userExpect] = res.data;
+        if (userExpect) {
+          //如果有userExpect,就tmd保存在storage中
+          wx.setStorageSync('userExpect', JSON.stringify(userExpect));
         }
       }
     });

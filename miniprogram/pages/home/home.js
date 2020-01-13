@@ -1,52 +1,49 @@
 //index.js
 //获取应用实例
-const app = getApp()
+const moment = require('../../utils/moment.min.js')
+const app = getApp();
+const db = wx.cloud.database();
+const _ = db.command
+
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
-  },
-  //事件处理函数
-  bindViewTap: function () {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
-  onChange: function ({ detail: active }) {
-    wx.redirectTo({
-      url: `../${active}/${active}`
-    })
+    time: 0,
+    myExpect: {},
+    myBaseData: {},
   },
   onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
-    }
+    this.initUserInfo();
+    this.start()
   },
+  initUserInfo() {
+    const userExpect = wx.getStorageSync('userExpect');
+    const userBaseInfo = wx.getStorageSync('userBaseInfo');
+    if (userExpect) {
+      this.setData({
+        myExpect: JSON.parse(userExpect)
+      })
+    };
+    if (userBaseInfo) {
+      this.setData({
+        myBaseData: JSON.parse(userBaseInfo)
+      })
+    };
+    db.collection('userDetailInfo').where({
+      height: _.gt(parseInt(this.data.myExpect.height) - 1).and(_.lt(parseInt(this.data.myExpect.height) + 3))
+    }).get().then((result) => {
+      console.log(result);
 
+    }).catch((err) => {
+
+    });
+    console.log(this.data);
+  },
+  start() {
+    const endTime = moment().add(7, 'days').format()
+    const diff = moment(endTime).diff(moment())
+    this.setData({
+      time: diff
+    });
+  }
 })

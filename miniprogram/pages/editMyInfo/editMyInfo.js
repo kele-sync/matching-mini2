@@ -118,8 +118,6 @@ Page({
     if (!photos.length) {
       wx.showToast({ title: '请选择图片', icon: 'none' });
     } else {
-      console.log(photos);
-
       const uploadTasks = photos.map((file) => this.uploadFilePromise(file));
       Promise.all(uploadTasks)
         .then(data => {
